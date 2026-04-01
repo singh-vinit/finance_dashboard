@@ -25,7 +25,7 @@ export default function RootLayout({
             <Sidebar />
             <SidebarInset className="min-h-screen">
               <Header />
-              <div className="flex flex-1 flex-col px-4 pb-4 md:px-6 md:pb-6">
+              <div className="flex flex-1 flex-col px-4 pb-5 md:px-6 md:pb-7">
                 <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col">
                   {children}
                 </div>

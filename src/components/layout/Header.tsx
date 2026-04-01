@@ -42,12 +42,12 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-20 px-4 pt-4 md:px-6 md:pt-6">
-      <div className="surface-glass mx-auto flex w-full max-w-7xl items-center justify-between gap-4 rounded-3xl border border-border/70 px-4 py-4 shadow-sm">
+      <div className="panel-soft mx-auto flex w-full max-w-7xl items-center justify-between gap-4 rounded-[1.75rem] px-5 py-4">
         <div className="flex min-w-0 items-start gap-3">
           <SidebarTrigger className="mt-1 md:hidden" />
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-xl font-semibold tracking-tight text-balance">
+              <h1 className="text-xl font-semibold tracking-tight md:text-[2rem]">
                 {meta.title}
               </h1>
               <Badge variant="secondary">Live mock data</Badge>
@@ -71,7 +71,7 @@ export function Header() {
           <Button
             variant="outline"
             size="icon-sm"
-            className="surface-glass border-none"
+            className="panel-soft border-none shadow-none"
             onClick={() =>
               setTheme(activeTheme === "dark" ? "light" : "dark")
             }

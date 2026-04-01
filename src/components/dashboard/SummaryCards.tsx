@@ -26,12 +26,12 @@ export function SummaryCards() {
         return (
           <Card
             key={metric.label}
-            className="surface-glass animate-in fade-in-0 slide-in-from-bottom-4 border-none duration-500"
+            className="panel-soft animate-in fade-in-0 slide-in-from-bottom-4 border-none duration-500 transition-transform hover:-translate-y-1 hover:shadow-[0_18px_40px_color-mix(in_oklab,var(--foreground)_8%,transparent)]"
             style={{ animationDelay: `${index * 90}ms` }}
           >
             <CardHeader className="gap-3">
               <div className="flex items-center justify-between gap-3">
-                <div className="flex size-10 items-center justify-center rounded-2xl bg-primary/12 text-primary">
+                <div className="flex size-11 items-center justify-center rounded-[1.35rem] bg-primary/12 text-primary">
                   <Icon />
                 </div>
                 <Badge variant={badgeVariant}>{metric.change}</Badge>

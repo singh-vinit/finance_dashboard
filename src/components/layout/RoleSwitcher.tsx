@@ -22,7 +22,7 @@ export function RoleSwitcher() {
 
   return (
     <Select value={role} onValueChange={(value) => setRole(value as UserRole)}>
-      <SelectTrigger className="surface-glass w-full min-w-40 border-none md:w-40">
+      <SelectTrigger className="panel-soft w-full min-w-40 border-none shadow-none md:w-40">
         <SelectValue placeholder="Switch role" />
       </SelectTrigger>
       <SelectContent align="end">
