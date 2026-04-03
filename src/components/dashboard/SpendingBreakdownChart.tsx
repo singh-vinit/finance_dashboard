@@ -48,7 +48,7 @@ export function SpendingBreakdownChart() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="aspect-auto h-[320px] w-full">
+        <ChartContainer config={chartConfig} className="aspect-auto h-[260px] w-full md:h-[320px]">
           <PieChart>
             <ChartTooltip
               content={

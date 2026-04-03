@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
-import { formatCurrency, percentage } from "@/lib/utils";
+import { formatCompactNumber, formatCurrency, percentage } from "@/lib/utils";
 import {
   describeSavingsDirection,
   getBiggestTransactionThisMonth,
@@ -111,7 +111,7 @@ export function InsightCards() {
           <div>
             <CardDescription>Biggest single transaction</CardDescription>
             <CardTitle className="mt-2 text-2xl">
-              {biggestTransaction ? formatCurrency(biggestTransaction.amount) : "$0"}
+              {biggestTransaction ? formatCurrency(biggestTransaction.amount) : formatCurrency(0)}
             </CardTitle>
           </div>
         </CardHeader>
@@ -152,11 +152,14 @@ export function InsightCards() {
         <CardContent>
           <ChartContainer
             config={topCategoryChartConfig}
-            className="aspect-auto h-[240px] w-full"
+            className="aspect-auto h-[220px] w-full md:h-[240px]"
           >
             <BarChart data={topCategories} layout="vertical" margin={{ left: 0, right: 16 }}>
               <CartesianGrid horizontal={false} />
-              <XAxis type="number" tickFormatter={(value) => `$${Math.round(value)}`} />
+              <XAxis
+                type="number"
+                tickFormatter={(value) => `₹${formatCompactNumber(Number(value))}`}
+              />
               <YAxis type="category" dataKey="category" width={92} />
               <ChartTooltip
                 cursor={false}
@@ -182,7 +185,7 @@ export function InsightCards() {
         <CardContent>
           <ChartContainer
             config={savingsChartConfig}
-            className="aspect-auto h-[240px] w-full"
+            className="aspect-auto h-[220px] w-full md:h-[240px]"
           >
             <LineChart data={savingsTrend} margin={{ left: 8, right: 8 }}>
               <CartesianGrid vertical={false} />

@@ -27,16 +27,7 @@ export function TransactionFilters() {
           Narrow the table by date range, category, type, and sort order.
         </CardDescription>
       </CardHeader>
-      <CardContent className="grid gap-4 lg:grid-cols-6">
-        <div className="flex flex-1 flex-col gap-2">
-          <span className="text-sm font-medium">Search</span>
-          <Input
-            value={filters.search}
-            onChange={(event) => setFilters({ search: event.target.value })}
-            placeholder="Try groceries, rent, client..."
-            className="surface-glass border-none"
-          />
-        </div>
+      <CardContent className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
         <div className="flex flex-col gap-2">
           <span className="text-sm font-medium">From</span>
           <Input
@@ -145,7 +136,7 @@ export function TransactionFilters() {
         </div>
         <Button
           variant="outline"
-          className="surface-glass self-end border-none"
+          className="surface-glass w-full self-end border-none md:w-auto"
           onClick={resetFilters}
         >
           Reset

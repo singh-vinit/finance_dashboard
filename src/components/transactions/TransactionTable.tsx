@@ -31,6 +31,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -48,6 +49,7 @@ export function TransactionTable() {
   const addTransaction = useFinanceStore((state) => state.addTransaction);
   const editTransaction = useFinanceStore((state) => state.editTransaction);
   const deleteTransaction = useFinanceStore((state) => state.deleteTransaction);
+  const setFilters = useFinanceStore((state) => state.setFilters);
   const resetFilters = useFinanceStore((state) => state.resetFilters);
   const [open, setOpen] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(
@@ -87,24 +89,24 @@ export function TransactionTable() {
   return (
     <>
       <Card className="surface-glass border-none">
-        <CardHeader className="gap-4 md:flex-row md:items-center md:justify-between">
+        <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <CardTitle>Transaction ledger</CardTitle>
             <CardDescription>
               {transactions.length} visible records across your current filter set.
             </CardDescription>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
             <Button
               variant="outline"
-              className="surface-glass border-none"
+              className="surface-glass w-full border-none sm:w-auto"
               onClick={() => exportTransactionsToCsv(transactions)}
             >
               <DownloadIcon data-icon="inline-start" />
               Export CSV
             </Button>
             {isAdmin && (
-              <Button onClick={openForCreate}>
+              <Button className="w-full sm:w-auto" onClick={openForCreate}>
                 <PlusIcon data-icon="inline-start" />
                 Add transaction
               </Button>
@@ -112,8 +114,78 @@ export function TransactionTable() {
           </div>
         </CardHeader>
 
-        <CardContent>
-          <Table>
+        <CardContent className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <span className="text-sm font-medium">Search transactions</span>
+            <Input
+              value={filters.search}
+              onChange={(event) => setFilters({ search: event.target.value })}
+              placeholder="Search description or tags..."
+              className="surface-glass border-none"
+            />
+          </div>
+
+          <div className="flex flex-col gap-3 md:hidden">
+            {transactions.length > 0 ? (
+              transactions.map((transaction) => (
+                <div
+                  key={transaction.id}
+                  className="rounded-2xl border border-border/70 bg-background/70 p-4"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="font-medium">{transaction.description}</p>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {formatTransactionDate(transaction.date)}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-mono text-sm font-medium">
+                        {transaction.type === "income" ? "+" : "-"}
+                        {formatCurrency(transaction.amount)}
+                      </p>
+                      <Badge
+                        variant={
+                          transaction.type === "income" ? "default" : "secondary"
+                        }
+                        className="mt-2"
+                      >
+                        {transaction.type}
+                      </Badge>
+                    </div>
+                  </div>
+                  <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <Badge variant="outline">{transaction.category}</Badge>
+                    {!isAdmin ? null : (
+                      <div className="flex w-full gap-2 sm:w-auto">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1 sm:flex-none"
+                          onClick={() => openForEdit(transaction)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          className="flex-1 sm:flex-none"
+                          onClick={() => setTransactionToDelete(transaction)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <EmptyState onReset={resetFilters} />
+            )}
+          </div>
+
+          <div className="hidden md:block">
+            <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Date</TableHead>
@@ -207,7 +279,8 @@ export function TransactionTable() {
                 <TableCell />
               </TableRow>
             </TableFooter>
-          </Table>
+            </Table>
+          </div>
         </CardContent>
       </Card>
 

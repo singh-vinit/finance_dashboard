@@ -42,7 +42,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-20 px-4 pt-4 md:px-6 md:pt-6">
-      <div className="panel-soft mx-auto flex w-full max-w-7xl items-center justify-between gap-4 rounded-[1.75rem] px-5 py-4">
+      <div className="panel-soft mx-auto flex w-full max-w-7xl flex-col gap-4 rounded-[1.75rem] px-4 py-4 md:px-5 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex min-w-0 items-start gap-3">
           <SidebarTrigger className="mt-1 md:hidden" />
           <div className="min-w-0">
@@ -62,7 +62,7 @@ export function Header() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex w-full items-center justify-between gap-2 sm:w-auto sm:justify-end">
           <div className="hidden text-right md:block">
             <p className="text-sm font-medium">{sessionDate}</p>
             <p className="text-xs text-muted-foreground">Dashboard session</p>

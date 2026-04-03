@@ -2,7 +2,7 @@
 
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
-import { formatCurrency } from "@/lib/utils";
+import { formatCompactNumber, formatCurrency } from "@/lib/utils";
 import { getMonthlyTrendData, useFinanceStore } from "@/store/useFinanceStore";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -40,7 +40,7 @@ export function BalanceTrendChart() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="aspect-auto h-[320px] w-full">
+        <ChartContainer config={chartConfig} className="aspect-auto h-[260px] w-full md:h-[320px]">
           <AreaChart data={data} margin={{ left: 8, right: 8, top: 12, bottom: 0 }}>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -52,7 +52,7 @@ export function BalanceTrendChart() {
             <YAxis
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => `$${Math.round(value / 1000)}k`}
+              tickFormatter={(value) => `₹${formatCompactNumber(Number(value))}`}
             />
             <ChartTooltip
               cursor={false}
