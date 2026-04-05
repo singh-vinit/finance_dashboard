@@ -97,11 +97,32 @@ export const useFinanceStore = create<FinanceState>()(
     }),
     {
       name: "finance-dashboard-store",
+      version: 2,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         transactions: state.transactions,
         role: state.role,
       }),
+      migrate: (persistedState) => {
+        const state = persistedState as {
+          role?: string;
+          transactions?: Transaction[];
+        };
+        const persistedRole = state.role;
+
+        const normalizedRole =
+          persistedRole === "viewer" || persistedRole === "analyst"
+            ? "viewer"
+            : "admin";
+
+        return {
+          transactions:
+            Array.isArray(state.transactions) && state.transactions.length > 0
+              ? state.transactions
+              : mockTransactions,
+          role: normalizedRole,
+        };
+      },
     }
   )
 );
@@ -112,10 +133,18 @@ export function getFilteredTransactions(
 ) {
   const filteredTransactions = transactions.filter((transaction) => {
     const searchValue = filters.search.trim().toLowerCase();
+    const searchableText = [
+      transaction.description,
+      transaction.category,
+      transaction.type,
+      transaction.date,
+      String(transaction.amount),
+      transaction.tags?.join(" ") ?? "",
+    ]
+      .join(" ")
+      .toLowerCase();
     const matchesSearch =
-      searchValue.length === 0 ||
-      transaction.description.toLowerCase().includes(searchValue) ||
-      transaction.tags?.some((tag) => tag.toLowerCase().includes(searchValue));
+      searchValue.length === 0 || searchableText.includes(searchValue);
     const matchesCategory =
       filters.category === "all" || transaction.category === filters.category;
     const matchesType = filters.type === "all" || transaction.type === filters.type;
